@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChatBot Kelas VII | Google</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #657808;
+      padding: 30px;
+      text-align: center;
+    }
+    h1 {
+      color: #0e0e0c;
+    }
+    input[type="text"] {
+      width: 60%;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    input[type="file"] {
+      margin-top: 20px;
+    }
+    .image-preview {
+      margin-top: 20px;
+      max-width: 300px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .description {
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      display: inline-block;
+      text-align: left;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <h1> Data Peserta Didik Kelas VII</h1>
+
+  <input type="text" id="search" placeholder="Cari informasi peserta didik" oninput="searchStudent()" />
+  
+  <div class="description" id="searchResult" style="display:none;"></div>
+
+  <h3>Atau upload foto peserta didik</h3>
+  <input type="file" accept="image/*" onchange="handleImageUpload(event)" />
+  <br />
+  <img id="preview" class="image-preview" style="display:none;" />
+  <div class="description" id="imageResult" style="display:none;"></div>
+
+  <script>
+    const studentDescriptions = {
+      putra: "putra adalah pemain bola dari smp lanumor",
+      tika: "Tika adalah peserta didik kelas VII yang aktif dan rajin belajar, berumur 12 tahun beralamat di desa lanumor ",
+      glifen: "glifen tinggal di desa lanumor dan sekolah di smp 5 mori atas",
+      tosan: "tosan adalah peserta didik kelas VII yang gemar membaca dan menulis",
+      sararae: "sahra mempunyai saudara kandung kembar",
+      anisa: "Anisa adalah peserta didik kelas VII yang kreatif dan suka menggambar",
+      videltor: "videl adalah pemain sepak bola dari desa lanumor yang bermain untuk tim tumbuk",
+      aulin: "Aulin adalah peserta didik kelas VII yang rajin mengikuti kegiatan literasi",
+      saron: "Saron adalah peserta didik kelas VII yang mempunyai saudara kembar",
+      aurel: "aurel adalah peserta didik kelas VII yang suka menolong teman",
+      rai: "Rio adalah peserta didik kelas ",
+      nisa: "Nisa adalah peserta didik kelas VII yang aktif dalam kegiatan ekstrakurikuler",
+      tio: "tio adalah peserta didik kelas VII yang senang belajar komputer",
+      maya: "Maya adalah peserta didik kelas VII yang selalu bersemangat di kelas",
+      icha: "icha adalah anak yang suka main voli"
+    };
+
+    function searchStudent() {
+      const input = document.getElementById("search").value.toLowerCase();
+      const resultBox = document.getElementById("searchResult");
+
+      if (studentDescriptions[input]) {
+        resultBox.innerHTML = studentDescriptions[input];
+        resultBox.style.display = "block";
+      } else {
+        resultBox.innerHTML = "Peserta didik tidak ditemukan. Silakan coba lagi.";
+        resultBox.style.display = input.trim() ? "block" : "none";
+      }
+    }
+
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      const preview = document.getElementById("preview");
+      const resultBox = document.getElementById("imageResult");
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+
+        const fileName = file.name.toLowerCase();
+        let found = false;
+        for (let key in studentDescriptions) {
+          if (fileName.includes(key)) {
+            resultBox.innerHTML = studentDescriptions[key];
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          resultBox.innerHTML = "Peserta didik tidak dikenali dari nama file. Gunakan nama file sesuai nama peserta didik.";
+        }
+        resultBox.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
